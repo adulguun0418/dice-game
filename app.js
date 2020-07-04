@@ -1,24 +1,41 @@
-//Which player's turn?
-var activePlayer = 0;
-
-//collected  points
-var scores = [0, 0];
-
-//current points
-var roundScore = 0;
-
-//dice side(random  1-6)
-
-//<div class="player-score" id="score-0">43</div>
-
-document.getElementById("score-0").textContent = 0;
-document.getElementById("score-1").textContent = 0;
-
-document.getElementById("current-0").textContent = 0;
-document.getElementById("current-1").textContent = 0;
-
+var activePlayer, scores, roundScore;
 var diceDom = document.querySelector(".dice");
-diceDom.style.display = "none";
+
+initGame();
+function initGame() {
+  //Which player's turn?
+  activePlayer = 0;
+
+  //collected  points
+  scores = [0, 0];
+
+  //current points
+  roundScore = 0;
+
+  //dice side(random  1-6)
+
+  //<div class="player-score" id="score-0">43</div>
+
+  document.getElementById("score-0").textContent = 0;
+  document.getElementById("score-1").textContent = 0;
+
+  document.getElementById("current-0").textContent = 0;
+  document.getElementById("current-1").textContent = 0;
+
+  //restore players' name
+  document.getElementById("name-0").textContent = "Player1";
+  document.getElementById("name-1").textContent = "Player2";
+
+  document.querySelector(".player-0-panel").classList.remove("winner");
+  document.querySelector(".player-1-panel").classList.remove("winner");
+
+  document.querySelector(".player-0-panel").classList.remove("active");
+  document.querySelector(".player-0-panel").classList.remove("active");
+
+  document.querySelector(".player-0-panel").classList.add("active");
+
+  diceDom.style.display = "none";
+}
 
 //roll dice event listener
 
@@ -78,3 +95,7 @@ function switchToNextPlayer() {
 
   diceDom.style.display = "none";
 }
+
+//new game button event listener
+
+document.querySelector(".btn-new").addEventListener("click", initGame);
