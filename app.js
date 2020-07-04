@@ -1,8 +1,11 @@
 var activePlayer, scores, roundScore;
 var diceDom = document.querySelector(".dice");
 
+var isNewGame;
+
 initGame();
 function initGame() {
+  isNewGame = true;
   //Which player's turn?
   activePlayer = 0;
 
@@ -40,47 +43,59 @@ function initGame() {
 //roll dice event listener
 
 document.querySelector(".btn-roll").addEventListener("click", function () {
-  //1-6 random number var
-  var diceNumber = Math.floor(Math.random() * 6 + 1);
+  if (isNewGame) {
+    //1-6 random number var
+    var diceNumber = Math.floor(Math.random() * 6 + 1);
 
-  //display dice picture
-  diceDom.style.display = "block";
+    //display dice picture
+    diceDom.style.display = "block";
 
-  //dice picture with random number var
-  diceDom.src = "dice-" + diceNumber + ".png";
+    //dice picture with random number var
+    diceDom.src = "dice-" + diceNumber + ".png";
 
-  //if display number is not 1 change current point
-  if (diceNumber !== 1) {
-    roundScore += diceNumber;
-    document.getElementById("current-" + activePlayer).textContent = roundScore;
+    //if display number is not 1 change current point
+    if (diceNumber !== 1) {
+      roundScore += diceNumber;
+      document.getElementById(
+        "current-" + activePlayer
+      ).textContent = roundScore;
+    } else {
+      switchToNextPlayer();
+    }
   } else {
-    switchToNextPlayer();
+    alert("click New Game");
   }
 });
 
 //hold button event listener
 
 document.querySelector(".btn-hold").addEventListener("click", function () {
-  //add current point to collected points
-  scores[activePlayer] += roundScore;
+  if (isNewGame) {
+    //add current point to collected points
+    scores[activePlayer] += roundScore;
 
-  document.getElementById("score-" + activePlayer).textContent =
-    scores[activePlayer];
+    document.getElementById("score-" + activePlayer).textContent =
+      scores[activePlayer];
 
-  //if someone won
-  if (scores[activePlayer] >= 10) {
-    document.getElementById("name-" + activePlayer).textContent = "Winner!";
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.add("winner");
+    //if someone won
+    if (scores[activePlayer] >= 30) {
+      isNewGame = false;
 
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.remove("active");
+      document.getElementById("name-" + activePlayer).textContent = "Winner!";
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.add("winner");
+
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.remove("active");
+    } else {
+      //current point 0
+      //change turn
+      switchToNextPlayer();
+    }
   } else {
-    //current point 0
-    //change turn
-    switchToNextPlayer();
+    alert("click New Game");
   }
 });
 
